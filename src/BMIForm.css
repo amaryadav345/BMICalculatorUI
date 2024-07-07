@@ -1,3 +1,16 @@
 .bmi-main-div {
-    margin-left: 10px;
+    margin-left: 20px;
+    
+}
+
+.bmi-form {
+    
+    background-color: rgb(245, 240, 240);
+    width: 16%;    
+    border-radius: 2px;
+    border: 1px     ;
+    padding-left: 20px;
+    padding-bottom: 10px;    
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    
 }

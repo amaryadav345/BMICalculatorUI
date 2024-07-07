@@ -12,9 +12,11 @@ const BMIForm = () => {
     age: "",
     height: "",
     weight: "",
-    result: "",
+    result: null,
   });
 
+  const [bmi, setBmi] = useState(null);
+  const [bmiCategory, setBmicategory] = useState(null);
   let numRegex = /^[0-9 ]+$/;
 
   const [error, setError] = useState({
@@ -38,16 +40,31 @@ const BMIForm = () => {
       console.log(`invalid value: in ${name}: `, value);
       const newError = { ...error, [name]: true };
       setError({ ...newError });
-      console.log("Error in :", newError);
     }
   };
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log("Form value is", formData.gender);
-    const BMIResult =
-      (formData.weight / (formData.height * formData.height)) * 10000;
+    const BMIResult = (
+      (formData.weight / (formData.height * formData.height)) *
+      10000
+    ).toFixed(2);
+    setBmi(BMIResult);
+    console.log(checkCalled());
+    setBmicategory(getBMICategory(BMIResult));
     setFormData({ ...formData, result: BMIResult });
+  };
+
+  const getBMICategory = (bmi) => {
+    console.log("BMI value is ", bmi);
+    if (bmi < 18.5) return "Underweight";
+    if (bmi < 24.9) return "Normal weight";
+    if (bmi < 29.9) return "Overweight";
+    return "Obesity";
+  };
+
+  const checkCalled = () => {
+    return "called ";
   };
 
   const resetFormData = () => {
@@ -160,19 +177,20 @@ const BMIForm = () => {
         <button style={{ marginLeft: "30px" }} onClick={resetFormData}>
           Reset
         </button>
+        <div>
+          <label>BMI:</label>
+          <input
+            type="text"
+            id="result"
+            name="result"
+            value={formData.result || ""}
+            onChange={onFormChange}
+            maxLength={3}
+            style={{ marginLeft: "10px", width: "100px" }}
+          ></input>
+          {bmi && <h3>Category: {bmiCategory}</h3>}
+        </div>
       </form>
-      <div>
-        <label>BMI:</label>
-        <input
-          type="text"
-          id="result"
-          name="result"
-          value={formData.result}
-          onChange={onFormChange}
-          maxLength={3}
-          style={{ marginLeft: "10px", width: "100px" }}
-        ></input>
-      </div>
     </div>
   );
 };
